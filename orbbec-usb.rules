@@ -1,0 +1,2 @@
+# Orbbec Astra (USB ID 2bc5:0401) — allow the OpenNI2 SDK to access it.
+SUBSYSTEM=="usb", ATTR{idVendor}=="2bc5", ATTR{idProduct}=="0401", MODE:="0666", GROUP:="plugdev", SYMLINK+="astra"
