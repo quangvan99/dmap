@@ -1,0 +1,7 @@
+.git
+__pycache__
+*.py[cod]
+frame.jpg
+frame_depth.jpg
+core
+core.*

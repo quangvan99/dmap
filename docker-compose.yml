@@ -1,0 +1,26 @@
+services:
+  dmap:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: dmap-openni:22.04
+    working_dir: /app
+    command: ["tail", "-f", "/dev/null"]
+    # GTK/OpenCV uses MIT-SHM when rendering X11 windows.
+    ipc: host
+    environment:
+      OPENNI2_REDIST: /app/openi_sdk
+      PYTHONUNBUFFERED: "1"
+      DISPLAY: ${DISPLAY:-:0}
+      QT_X11_NO_MITSHM: "1"
+    volumes:
+      # Mount the complete repository, including test.py and openi_sdk.
+      - ./:/app
+      # USB bus/device numbers can change after reconnecting the camera.
+      - /dev/bus/usb:/dev/bus/usb
+      # libudev uses the host's USB device metadata.
+      - /run/udev:/run/udev:ro
+      # Show OpenCV windows on the host desktop.
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw
+    device_cgroup_rules:
+      - "c 189:* rmw"
